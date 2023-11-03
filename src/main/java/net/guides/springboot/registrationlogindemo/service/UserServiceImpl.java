@@ -16,11 +16,17 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-@NoArgsConstructor
 public class UserServiceImpl implements UserServiceInterface{
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+//    public UserServiceImpl(UserRepository userRepository,
+//                           RoleRepository roleRepository,
+//                           PasswordEncoder passwordEncoder) {
+//        this.userRepository = userRepository;
+//        this.roleRepository = roleRepository;
+//        this.passwordEncoder = passwordEncoder;
+//    }
 
     @Override
     public void saveUser(UserDto userDto)
@@ -30,7 +36,7 @@ public class UserServiceImpl implements UserServiceInterface{
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        Role role = roleRepository.findByName("ROLE_ADMIN");
+        Role role = roleRepository.findByName("ROLE_USER");
         if(role == null)
         {
             role = checkRoleExist();
@@ -64,7 +70,7 @@ public class UserServiceImpl implements UserServiceInterface{
 
     private Role checkRoleExist(){
         Role role = new Role();
-        role.setName("ROLE_ADMIN");
+        role.setName("ROLE_USER");
         return roleRepository.save(role);
     }
 

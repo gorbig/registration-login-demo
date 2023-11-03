@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Text Saver</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    textarea {
+      width: 100%;
+      height: 300px;
+      resize: vertical;
+    }
+    .save-button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+    }
+    .share-link {
+      display: none;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Text Saver</h1>
+  <textarea id="text-input" placeholder="Enter your text here..."></textarea>
+  <button id="save-button" class="save-button">Save Text</button>
+  <div id="share-link" class="share-link">
+    <p>Share this link:</p>
+    <input type="text" id="link" readonly>
+  </div>
+</div>
+
+<script>
+  // Function to generate a unique ID for the saved text
+  function generateUniqueId() {
+    return '_' + Math.random().toString(36).substr(2, 9);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const textInput = document.getElementById('text-input');
+    const saveButton = document.getElementById('save-button');
+    const shareLink = document.getElementById('share-link');
+    const linkInput = document.getElementById('link');
+
+    // Event listener for the save button
+    saveButton.addEventListener('click', function() {
+      const text = textInput.value;
+      const id = generateUniqueId();
+
+      // Simulate saving the text (you can use a server for this)
+      const savedText = {
+        id: id,
+        text: text
+      };
+
+      // Construct the shareable link
+      const shareableLink = window.location.href + '?id=' + id;
+
+      // Display the shareable link
+      linkInput.value = shareableLink;
+      shareLink.style.display = 'block';
+    });
+  });
+</script>
+</body>
+</html>

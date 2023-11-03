@@ -9,6 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 public class AuthController
@@ -19,10 +22,10 @@ public class AuthController
         this.userServiceInterface = userService;
     }
 
-    @GetMapping("/index")
+    @GetMapping("/main")
     public String home()
     {
-        return "index";
+        return "main";
     }
 
 
@@ -33,7 +36,7 @@ public class AuthController
         model.addAttribute("user", user);
         return "register";
     }
-
+    @PostMapping("/register/save")
     public String registration(@Valid @ModelAttribute("user") UserDto userDto,
                                BindingResult result,
                                Model model)
@@ -49,11 +52,22 @@ public class AuthController
         if(result.hasErrors())
         {
             model.addAttribute("user", userDto);
-            return "/register";
+            return "register";
         }
 
         userServiceInterface.saveUser(userDto);
         return "redirect: /register?success";
 
+    }
+
+    @GetMapping("/users")
+    public String users(Model model){
+        List<UserDto> users = userServiceInterface.findAllUsers();
+        model.addAttribute("users", users);
+        return "users";
+    }
+    @GetMapping("/login")
+    public String login(){
+        return "login";
     }
 }
